@@ -3,1439 +3,636 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ernie Zahn - Filmmaker · Producer · Open Source Advocate</title>
+    <title>Ernie Zahn | Filmmaker & Producer</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        /* --- CORE VARIABLES --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
-            --tos-red: #cc3311;
-            --tos-orange: #ee8833;
-            --tos-yellow: #ffcc33;
-            --tos-green: #44bb66;
-            --tos-blue: #3366cc;
-            --bg-dark: #0d0d0d;
-            --bg-card: #1a1a1a;
-            --text-primary: #ffffff;
-            --text-secondary: #b4b4b4;
-            --border-subtle: rgba(255, 255, 255, 0.1);
+            --tos-red: #cc3311; --tos-orange: #ee8833; --tos-yellow: #ffcc33;
+            --tos-green: #44bb66; --tos-blue: #3366cc;
+            --bg-dark: #0d0d0d; --bg-card: #1a1a1a;
+            --text-main: #ffffff; --text-muted: #b4b4b4;
+            --border: rgba(255,255,255,0.1);
         }
-
         [data-theme="light"] {
-            --bg-dark: #f5f5f5;
-            --bg-card: #ffffff;
-            --text-primary: #1a1a1a;
-            --text-secondary: #666666;
-            --border-subtle: rgba(0, 0, 0, 0.1);
+            --bg-dark: #f5f5f5; --bg-card: #ffffff;
+            --text-main: #1a1a1a; --text-muted: #666666;
+            --border: rgba(0,0,0,0.1);
         }
-
+        html { scroll-behavior: smooth; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-            background: var(--bg-dark);
-            color: var(--text-primary);
-            line-height: 1.6;
-            overflow-x: hidden;
-            transition: background 0.3s, color 0.3s;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-dark); color: var(--text-main);
+            line-height: 1.6; overflow-x: hidden; transition: background 0.3s, color 0.3s;
         }
-
         body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: radial-gradient(circle at 20% 50%, rgba(204, 51, 17, 0.15), transparent 50%),
                         radial-gradient(circle at 80% 80%, rgba(238, 136, 51, 0.15), transparent 50%),
                         radial-gradient(circle at 40% 20%, rgba(68, 187, 102, 0.12), transparent 50%);
-            z-index: -1;
-            animation: gradientShift 20s ease infinite;
-            opacity: 1;
-            transition: opacity 0.3s;
+            z-index: -1; pointer-events: none;
         }
+        [data-theme="light"] body::before { opacity: 0.3; }
 
-        [data-theme="light"] body::before {
-            opacity: 0.3;
-        }
-
-        @keyframes gradientShift {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.8; }
-        }
-
-        /* Theme Toggle */
-        .theme-toggle {
-            position: fixed;
-            top: 24px;
-            right: 24px;
-            z-index: 1000;
-            background: var(--bg-card);
-            border: 1px solid var(--border-subtle);
-            border-radius: 24px;
-            padding: 10px 20px;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.9rem;
-            color: var(--text-primary);
-        }
-
-        .theme-toggle:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(255, 204, 51, 0.3);
-        }
-
-        /* Hero Header - Fixed spacing issue */
-        .hero-header {
-            width: 100vw;
-            min-height: 85vh;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            margin-bottom: 80px;
-            padding: 100px 20px 60px;
-        }
-
-.hero-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, rgba(26, 26, 26, 0.7) 0%, rgba(42, 42, 42, 0.85) 100%),
-                url('images/hero.jpeg');
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-        
-
-        .hero-background::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(255, 204, 51, 0.03) 39px, rgba(255, 204, 51, 0.03) 40px),
-                repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(255, 204, 51, 0.03) 39px, rgba(255, 204, 51, 0.03) 40px);
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            text-align: center;
-            padding: 0 40px;
-            max-width: 1000px;
-        }
-
-        .hero-title {
-            font-size: clamp(3rem, 10vw, 7rem);
-            font-weight: 800;
-            letter-spacing: -0.03em;
-            margin-bottom: 24px;
-            background: linear-gradient(135deg, var(--tos-red) 0%, var(--tos-orange) 25%, var(--tos-yellow) 50%, var(--tos-green) 75%, var(--tos-blue) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: gradientSlide 8s ease infinite;
-            background-size: 200% 200%;
-        }
-
-        @keyframes gradientSlide {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        .hero-tagline {
-            font-size: clamp(1rem, 2.5vw, 1.5rem);
-            color: var(--text-secondary);
-            margin-bottom: 48px;
-            font-weight: 500;
-        }
-
-        .hero-nav {
-            display: flex;
-            justify-content: center;
-            gap: 16px;
-            flex-wrap: wrap;
-            padding: 0 20px;
-        }
-
-        .hero-nav a {
-            padding: 14px 32px;
-            background: var(--bg-card);
-            border: 1px solid var(--border-subtle);
-            border-radius: 24px;
-            color: var(--text-primary);
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-nav a:nth-child(1)::before { background: var(--tos-red); }
-        .hero-nav a:nth-child(2)::before { background: var(--tos-orange); }
-        .hero-nav a:nth-child(3)::before { background: var(--tos-yellow); }
-        .hero-nav a:nth-child(4)::before { background: var(--tos-green); }
-
-        .hero-nav a::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            transition: opacity 0.3s;
-            z-index: -1;
-        }
-
-        .hero-nav a:hover {
-            transform: translateY(-2px);
-        }
-
-        .hero-nav a:nth-child(1):hover { border-color: var(--tos-red); box-shadow: 0 8px 24px rgba(204, 51, 17, 0.4); }
-        .hero-nav a:nth-child(2):hover { border-color: var(--tos-orange); box-shadow: 0 8px 24px rgba(238, 136, 51, 0.4); }
-        .hero-nav a:nth-child(3):hover { border-color: var(--tos-yellow); box-shadow: 0 8px 24px rgba(255, 204, 51, 0.4); }
-        .hero-nav a:nth-child(4):hover { border-color: var(--tos-green); box-shadow: 0 8px 24px rgba(68, 187, 102, 0.4); }
-
-        .hero-nav a:hover::before {
-            opacity: 0.15;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 32px;
-        }
-
-        .section {
-            margin-bottom: 120px;
-        }
-
-        .section-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 48px;
-            gap: 16px;
-        }
-
-        .section-number {
-            font-size: 1rem;
-            font-weight: 700;
-            background: rgba(204, 51, 17, 0.15);
-            border: 2px solid var(--tos-red);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        /* --- LAYOUT --- */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        section { padding: 80px 0; border-bottom: 1px solid var(--border); }
+        section:last-child { border-bottom: none; }
+        h2 { font-size: 2.5rem; margin-bottom: 40px; font-weight: 800; letter-spacing: -0.02em; }
+        .section-title { display: flex; align-items: center; gap: 12px; margin-bottom: 40px; }
+        .section-num {
+            width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 1rem; background: rgba(204, 51, 17, 0.15); color: var(--tos-red); border: 2px solid var(--tos-red);
             flex-shrink: 0;
         }
+        .section-num.orange { background: rgba(238, 136, 51, 0.15); color: var(--tos-orange); border-color: var(--tos-orange); }
+        .section-num.yellow { background: rgba(255, 204, 51, 0.15); color: var(--tos-yellow); border-color: var(--tos-yellow); }
+        .section-num.green { background: rgba(68, 187, 102, 0.15); color: var(--tos-green); border-color: var(--tos-green); }
 
-        .section-number.orange { background: rgba(238, 136, 51, 0.15); border-color: var(--tos-orange); color: var(--tos-orange); }
-        .section-number.yellow { background: rgba(255, 204, 51, 0.15); border-color: var(--tos-yellow); color: var(--tos-yellow); }
-        .section-number.green { background: rgba(68, 187, 102, 0.15); border-color: var(--tos-green); color: var(--tos-green); }
-
-        h2 {
-            font-size: clamp(2rem, 5vw, 3rem);
-            font-weight: 700;
-            letter-spacing: -0.02em;
+        /* --- THEME TOGGLE --- */
+        .theme-toggle {
+            position: fixed; top: 24px; right: 24px; z-index: 1000;
+            background: var(--bg-card); border: 1px solid var(--border);
+            padding: 8px 16px; border-radius: 20px; cursor: pointer;
+            color: var(--text-main); font-weight: 600; font-size: 0.9rem; transition: transform 0.2s;
         }
+        .theme-toggle:hover { transform: translateY(-2px); }
 
-        /* Featured Work */
-        .featured-work {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 32px;
-            margin-bottom: 80px;
+        /* --- HERO --- */
+        .hero {
+            min-height: 80vh; display: flex; align-items: center; justify-content: center;
+            text-align: center; padding: 120px 20px;
+            background: linear-gradient(135deg, rgba(13,13,13,0.85), rgba(26,26,26,0.9)), url('images/hero.jpeg');
+            background-size: cover; background-position: center;
         }
-
-        .featured-item {
-            position: relative;
-            border-radius: 20px;
-            overflow: hidden;
-            background: var(--bg-card);
-            border: 1px solid var(--border-subtle);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            aspect-ratio: 16/9;
-            cursor: pointer;
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 6rem); font-weight: 800; line-height: 1.1;
+            background: linear-gradient(135deg, var(--tos-red), var(--tos-orange), var(--tos-yellow), var(--tos-green), var(--tos-blue));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 20px;
         }
-
-        .featured-item:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 24px 48px rgba(0, 0, 0, 0.6);
+        .hero p { font-size: 1.25rem; color: var(--text-muted); margin-bottom: 32px; }
+        .btn {
+            display: inline-block; padding: 12px 32px; background: var(--tos-yellow);
+            color: #000; font-weight: 700; text-decoration: none; border-radius: 24px;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255, 204, 51, 0.4); }
 
-        .featured-item:nth-child(1):hover { border-color: var(--tos-red); }
-        .featured-item:nth-child(2):hover { border-color: var(--tos-orange); }
+        /* --- WORK GRID --- */
+        .work-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
 
-        .featured-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-secondary);
-            font-size: 3rem;
+        /*
+         * FIX 1: Work cards are now purely image thumbnails — fixed 16:9 aspect ratio.
+         * The card has no text body at all. The image fills the card completely.
+         * Hover shows a subtle overlay so the cursor change signals interactivity.
+         */
+        .work-card {
+            border-radius: 16px; overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer; position: relative;
+            /* Force a true 16:9 box regardless of image load state */
+            aspect-ratio: 16 / 9;
+            background: #111;
         }
-
-        .featured-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 32px;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.95), transparent);
+        .work-card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(0,0,0,0.5); }
+        .work-card img {
+            width: 100%; height: 100%; object-fit: cover;
+            display: block; transition: opacity 0.3s;
         }
-
-        .featured-item h3 {
-            font-size: 1.75rem;
-            margin-bottom: -8px;
-            color: var(--text-primary);
+        /* Subtle hover overlay to confirm clickability */
+        .work-card::after {
+            content: ''; position: absolute; inset: 0;
+            background: rgba(255,204,51,0.08);
+            opacity: 0; transition: opacity 0.3s;
+            border: 2px solid transparent; border-radius: 16px;
         }
+        .work-card:hover::after { opacity: 1; border-color: var(--tos-yellow); }
 
-        .featured-item p {
-            color: var(--text-secondary);
-            font-size: 1rem;
-        }
-
-        /* Portfolio Grid */
-        .portfolio-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 32px;
-            margin-bottom: 48px;
-        }
-
-        .portfolio-item {
-            position: relative;
-            border-radius: 16px;
-            overflow: hidden;
-            background: var(--bg-card);
-            border: 1px solid var(--border-subtle);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
-        }
-
-        .portfolio-item:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 16px 32px rgba(0, 0, 0, 0.5);
-        }
-
-        .portfolio-item:nth-child(5n+1):hover { border-color: var(--tos-red); }
-        .portfolio-item:nth-child(5n+2):hover { border-color: var(--tos-orange); }
-        .portfolio-item:nth-child(5n+3):hover { border-color: var(--tos-yellow); }
-        .portfolio-item:nth-child(5n+4):hover { border-color: var(--tos-green); }
-        .portfolio-item:nth-child(5n+5):hover { border-color: var(--tos-blue); }
-
-        .portfolio-poster {
-            width: 100%;
-            aspect-ratio: 2/3;
-            object-fit: cover;
-            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-secondary);
-            font-size: 4rem;
-        }
-
-        .portfolio-info {
+        /* --- MODAL --- */
+        .modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.92); z-index: 2000; align-items: center; justify-content: center;
             padding: 20px;
         }
-
-        .portfolio-item h4 {
-            font-size: 1.25rem;
-            margin-bottom: 8px;
-            color: var(--text-primary);
+        .modal.active { display: flex; }
+        .modal-content {
+            background: var(--bg-card); max-width: 900px; width: 100%; border-radius: 24px;
+            padding: 40px; position: relative; max-height: 90vh; overflow-y: auto;
+            border: 1px solid var(--border);
         }
-
-        .portfolio-meta {
-            display: flex;
-            gap: 12px;
-            font-size: 0.875rem;
-            color: var(--text-secondary);
+        .modal-close {
+            position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.1);
+            border: none; color: white; width: 40px; height: 40px; border-radius: 50%;
+            font-size: 1.5rem; cursor: pointer; transition: background 0.2s; z-index: 10;
+            display: flex; align-items: center; justify-content: center; line-height: 1;
         }
+        .modal-close:hover { background: var(--tos-red); }
+        .modal-title { font-size: 2rem; margin-bottom: 10px; color: var(--text-main); padding-right: 48px; }
+        .modal-meta { color: var(--tos-yellow); font-weight: 700; margin-bottom: 20px; text-transform: uppercase; font-size: 0.85rem; }
+        .modal-desc { color: var(--text-muted); font-size: 1.05rem; line-height: 1.7; margin-bottom: 24px; }
 
-        .portfolio-year {
-            font-weight: 600;
+        /* Video Wrapper */
+        .video-wrapper {
+            position: relative; width: 100%; aspect-ratio: 16/9;
+            background: #000; border-radius: 12px; overflow: hidden;
+            margin-bottom: 24px; cursor: pointer;
         }
-
-        .portfolio-item:nth-child(5n+1) .portfolio-year { color: var(--tos-red); }
-        .portfolio-item:nth-child(5n+2) .portfolio-year { color: var(--tos-orange); }
-        .portfolio-item:nth-child(5n+3) .portfolio-year { color: var(--tos-yellow); }
-        .portfolio-item:nth-child(5n+4) .portfolio-year { color: var(--tos-green); }
-        .portfolio-item:nth-child(5n+5) .portfolio-year { color: var(--tos-blue); }
-
-        /* Lightbox Modal */
-        .lightbox {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-            padding: 40px;
-        }
-
-        .lightbox.active {
-            display: flex;
-        }
-
-        .lightbox-content {
-            max-width: 1200px;
-            max-height: 90vh;
-            background: var(--bg-card);
-            border-radius: 24px;
-            padding: 48px;
-            position: relative;
-            overflow-y: auto;
-        }
-
-        .lightbox-close {
-            position: absolute;
-            top: 24px;
-            right: 24px;
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            color: white;
-            font-size: 2rem;
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .lightbox-close:hover {
-            background: var(--tos-red);
-            transform: rotate(90deg);
-        }
-
-        .lightbox h3 {
-            font-size: 2.5rem;
-            margin-bottom: 16px;
-        }
-
-        .lightbox p {
-            color: var(--text-secondary);
-            line-height: 1.8;
-            margin-bottom: 16px;
-        }
-
-        .lightbox-video {
-            width: 100%;
-            aspect-ratio: 16/9;
-            background: #000;
-            border-radius: 16px;
-            margin: 24px 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-        }
-
-        /* About section */
-        .about-content {
-            display: grid;
-            grid-template-columns: 300px 1fr;
-            gap: 48px;
-            background: var(--bg-card);
-            border: 1px solid var(--border-subtle);
-            border-radius: 24px;
-            padding: 48px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .about-content::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(135deg, var(--tos-red), var(--tos-orange), var(--tos-yellow), var(--tos-green), var(--tos-blue));
-            border-radius: 24px;
-            opacity: 0;
-            transition: opacity 0.3s;
-            z-index: -1;
-        }
-
-        .about-content:hover::before {
-            opacity: 0.3;
-        }
-
-        .profile-image {
-            width: 100%;
-            aspect-ratio: 3/4;
-            border-radius: 16px;
-            object-fit: cover;
-            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-secondary);
-            font-size: 4rem;
-            border: 1px solid var(--border-subtle);
-        }
-
-        .about-text p {
-            font-size: 1.125rem;
-            line-height: 1.8;
-            color: var(--text-secondary);
-            margin-bottom: 24px;
-        }
-
-        .skills {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-top: 32px;
-        }
-
-        .skill-tag {
-            padding: 10px 20px;
-            background: linear-gradient(135deg, rgba(204, 51, 17, 0.15), rgba(238, 136, 51, 0.15));
-            border: 1px solid var(--border-subtle);
-            border-radius: 20px;
-            font-size: 0.95rem;
-            font-weight: 500;
-            color: var(--text-primary);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .skill-tag:nth-child(5n+1) { background: linear-gradient(135deg, rgba(204, 51, 17, 0.15), rgba(204, 51, 17, 0.25)); }
-        .skill-tag:nth-child(5n+2) { background: linear-gradient(135deg, rgba(238, 136, 51, 0.15), rgba(238, 136, 51, 0.25)); }
-        .skill-tag:nth-child(5n+3) { background: linear-gradient(135deg, rgba(255, 204, 51, 0.15), rgba(255, 204, 51, 0.25)); }
-        .skill-tag:nth-child(5n+4) { background: linear-gradient(135deg, rgba(68, 187, 102, 0.15), rgba(68, 187, 102, 0.25)); }
-        .skill-tag:nth-child(5n+5) { background: linear-gradient(135deg, rgba(51, 102, 204, 0.15), rgba(51, 102, 204, 0.25)); }
-
-        .skill-tag:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgba(255, 204, 51, 0.3);
-        }
-
-        .skill-tag:nth-child(5n+1):hover { border-color: var(--tos-red); box-shadow: 0 8px 16px rgba(204, 51, 17, 0.4); }
-        .skill-tag:nth-child(5n+2):hover { border-color: var(--tos-orange); box-shadow: 0 8px 16px rgba(238, 136, 51, 0.4); }
-        .skill-tag:nth-child(5n+3):hover { border-color: var(--tos-yellow); box-shadow: 0 8px 16px rgba(255, 204, 51, 0.4); }
-        .skill-tag:nth-child(5n+4):hover { border-color: var(--tos-green); box-shadow: 0 8px 16px rgba(68, 187, 102, 0.4); }
-        .skill-tag:nth-child(5n+5):hover { border-color: var(--tos-blue); box-shadow: 0 8px 16px rgba(51, 102, 204, 0.4); }
-
-        /* Blog with thumbnails */
-        .blog-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 32px;
-        }
-
-        .blog-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-subtle);
-            border-radius: 20px;
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            cursor: pointer;
-        }
-
-        .blog-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
-        }
-
-        .blog-card:nth-child(3n+1):hover { border-color: var(--tos-red); }
-        .blog-card:nth-child(3n+2):hover { border-color: var(--tos-yellow); }
-        .blog-card:nth-child(3n+3):hover { border-color: var(--tos-green); }
-
-        .blog-thumbnail {
-            width: 100%;
-            aspect-ratio: 16/9;
-            object-fit: cover;
-            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-secondary);
-            font-size: 3rem;
-        }
-
-        .blog-content {
-            padding: 28px;
-        }
-
-        .blog-date {
-            font-size: 0.875rem;
-            font-weight: 600;
-            margin-bottom: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .blog-card:nth-child(3n+1) .blog-date { color: var(--tos-red); }
-        .blog-card:nth-child(3n+2) .blog-date { color: var(--tos-yellow); }
-        .blog-card:nth-child(3n+3) .blog-date { color: var(--tos-green); }
-
-        .blog-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 12px;
-            color: var(--text-primary);
-            font-weight: 700;
-        }
-
-        .blog-card h3 a {
-            color: inherit;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .blog-card:nth-child(3n+1) h3 a:hover { color: var(--tos-red); }
-        .blog-card:nth-child(3n+2) h3 a:hover { color: var(--tos-yellow); }
-        .blog-card:nth-child(3n+3) h3 a:hover { color: var(--tos-green); }
-
-        .blog-excerpt {
-            color: var(--text-secondary);
-            line-height: 1.7;
-        }
-
-        /* Contact section */
-        .contact-content {
-            background: var(--bg-card);
-            border: 1px solid var(--border-subtle);
-            border-radius: 24px;
-            padding: 48px;
-        }
-
-        .contact-content > p {
-            font-size: 1.125rem;
-            color: var(--text-secondary);
-            margin-bottom: 32px;
-            text-align: center;
-        }
-
-        .contact-form {
-            max-width: 600px;
-            margin: 0 auto 32px;
-        }
-
-        .form-group {
-            margin-bottom: 24px;
-        }
-
-        .form-group label {
+        .video-wrapper img {
+            width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: opacity 0.3s;
             display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
         }
+        .video-wrapper:hover img { opacity: 1; }
+        .play-button {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 80px; height: 80px; background: var(--tos-red); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 0 0 0 rgba(204, 51, 17, 0.7);
+            animation: pulse 2s infinite; pointer-events: none;
+        }
+        .play-button::before {
+            content: ''; width: 0; height: 0;
+            border-left: 25px solid white; border-top: 15px solid transparent; border-bottom: 15px solid transparent;
+            margin-left: 5px;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(204, 51, 17, 0.7); }
+            70% { box-shadow: 0 0 0 20px rgba(204, 51, 17, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(204, 51, 17, 0); }
+        }
+        .video-wrapper:hover .play-button { transform: translate(-50%, -50%) scale(1.1); transition: transform 0.2s; }
 
+        .modal-link {
+            display: inline-block; padding: 10px 24px; background: var(--tos-green);
+            color: white; text-decoration: none; border-radius: 12px; font-weight: 600;
+            transition: background 0.2s;
+        }
+        .modal-link:hover { background: #3da05a; }
+        .modal-link.hidden { display: none; }
+
+        /* --- ABOUT & ACCOLADES --- */
+        .about-split { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+        .profile-img { width: 100%; aspect-ratio: 3/4; object-fit: cover; border-radius: 16px; border: 1px solid var(--border); }
+        .bio-text { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 24px; }
+        .accolades-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; list-style: none;
+        }
+        .accolade-item {
+            background: var(--bg-card); padding: 16px; border-radius: 12px;
+            border: 1px solid var(--border); display: flex; align-items: center; gap: 16px;
+        }
+        .laurel {
+            width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: 800; color: #000; font-size: 1.2rem; flex-shrink: 0;
+        }
+        .laurel.gold { background: linear-gradient(135deg, #ffd700, #ffaa00); }
+        .laurel.silver { background: linear-gradient(135deg, #c0c0c0, #a0a0a0); }
+        .laurel.bronze { background: linear-gradient(135deg, #cd7f32, #a0522d); }
+        .accolade-details h4 { font-size: 1rem; margin-bottom: 4px; }
+        .accolade-details span { font-size: 0.85rem; color: var(--text-muted); }
+
+        /* --- BLOG ---
+         * FIX 3: Posts are clickable — click to expand full content inline.
+         * The .blog-post cursor is pointer. Full content hides by default,
+         * revealed with a CSS height transition on .blog-post.open.
+         */
+        .blog-feed { display: flex; flex-direction: column; gap: 24px; }
+        .blog-post {
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 32px;
+            transition: border-color 0.3s; cursor: pointer; user-select: none;
+        }
+        .blog-post:hover { border-color: var(--tos-green); }
+        .blog-post.open { border-color: var(--tos-green); cursor: default; }
+        .blog-date { font-size: 0.85rem; color: var(--tos-green); font-weight: 700; text-transform: uppercase; margin-bottom: 8px; }
+        .blog-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 12px; }
+        .blog-excerpt { color: var(--text-muted); margin-bottom: 16px; }
+        /* Expand toggle label */
+        .blog-toggle {
+            color: var(--tos-yellow); font-weight: 600; font-size: 0.9rem;
+            display: inline-flex; align-items: center; gap: 6px;
+        }
+        .blog-toggle::after { content: '↓'; transition: transform 0.3s; display: inline-block; }
+        .blog-post.open .blog-toggle::after { transform: rotate(180deg); }
+        /* Full content — hidden until .open */
+        .blog-full {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.4s ease, padding-top 0.4s ease;
+            padding-top: 0;
+        }
+        .blog-post.open .blog-full {
+            max-height: 2000px; /* large enough for any post */
+            padding-top: 20px;
+        }
+        .blog-full-inner {
+            border-top: 1px solid var(--border);
+            padding-top: 20px; color: var(--text-muted); line-height: 1.8;
+        }
+        .blog-full-inner p { margin-bottom: 16px; }
+        .blog-full-inner p:last-child { margin-bottom: 0; }
+
+        /* --- CONTACT --- */
+        .contact-box {
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px;
+            padding: 48px; text-align: center; max-width: 800px; margin: 0 auto;
+        }
+        .contact-links { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin-top: 32px; }
+        .contact-btn {
+            padding: 10px 24px; border-radius: 20px; text-decoration: none; font-weight: 600;
+            background: var(--bg-dark); border: 1px solid var(--border); color: var(--text-main);
+            transition: all 0.2s;
+        }
+        .contact-btn:hover { border-color: var(--tos-yellow); color: var(--tos-yellow); }
+
+        /*
+         * FIX 4: Restored message form below the contact links.
+         */
+        .contact-form { margin-top: 40px; text-align: left; }
+        .contact-form h3 {
+            font-size: 1.2rem; margin-bottom: 20px; text-align: center; color: var(--text-muted);
+            font-weight: 400;
+        }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+        .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+        .form-group label { font-size: 0.85rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
         .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 14px 20px;
-            background: var(--bg-dark);
-            border: 1px solid var(--border-subtle);
-            border-radius: 12px;
-            color: var(--text-primary);
-            font-size: 1rem;
-            font-family: inherit;
-            transition: all 0.3s;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
+        .form-group textarea,
+        .form-group select {
+            background: var(--bg-dark); border: 1px solid var(--border);
+            color: var(--text-main); padding: 12px 16px; border-radius: 12px;
+            font-size: 1rem; font-family: inherit;
+            transition: border-color 0.2s, box-shadow 0.2s;
             outline: none;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
             border-color: var(--tos-yellow);
             box-shadow: 0 0 0 3px rgba(255, 204, 51, 0.1);
         }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
-
+        .form-group textarea { resize: vertical; min-height: 140px; }
         .form-submit {
-            width: 100%;
-            padding: 16px 32px;
-            background: linear-gradient(135deg, var(--tos-yellow), var(--tos-green));
-            border: none;
-            border-radius: 12px;
-            color: white;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
+            width: 100%; padding: 14px; background: var(--tos-yellow); color: #000;
+            border: none; border-radius: 12px; font-size: 1rem; font-weight: 700;
+            cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; margin-top: 8px;
         }
+        .form-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255, 204, 51, 0.3); }
+        .form-note { text-align: center; font-size: 0.82rem; color: var(--text-muted); margin-top: 12px; }
 
-        .form-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(255, 204, 51, 0.5);
-        }
-
-        .contact-divider {
-            text-align: center;
-            margin: 32px 0;
-            color: var(--text-secondary);
-            position: relative;
-        }
-
-        .contact-divider::before,
-        .contact-divider::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            width: 40%;
-            height: 1px;
-            background: var(--border-subtle);
-        }
-
-        .contact-divider::before { left: 0; }
-        .contact-divider::after { right: 0; }
-
-        .contact-links {
-            display: flex;
-            justify-content: center;
-            gap: 16px;
-            flex-wrap: wrap;
-        }
-
-        .contact-link {
-            padding: 14px 32px;
-            color: white;
-            text-decoration: none;
-            border-radius: 24px;
-            font-weight: 600;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .contact-link:nth-child(1) { background: linear-gradient(135deg, var(--tos-red), var(--tos-orange)); box-shadow: 0 4px 12px rgba(204, 51, 17, 0.3); }
-        .contact-link:nth-child(2) { background: linear-gradient(135deg, var(--tos-orange), var(--tos-yellow)); box-shadow: 0 4px 12px rgba(238, 136, 51, 0.3); }
-        .contact-link:nth-child(3) { background: linear-gradient(135deg, var(--tos-yellow), var(--tos-green)); box-shadow: 0 4px 12px rgba(255, 204, 51, 0.3); }
-        .contact-link:nth-child(4) { background: linear-gradient(135deg, var(--tos-green), var(--tos-blue)); box-shadow: 0 4px 12px rgba(68, 187, 102, 0.3); }
-        .contact-link:nth-child(5) { background: linear-gradient(135deg, var(--tos-blue), var(--tos-red)); box-shadow: 0 4px 12px rgba(51, 102, 204, 0.3); }
-        .contact-link:nth-child(6) { background: linear-gradient(135deg, var(--tos-red), var(--tos-blue)); box-shadow: 0 4px 12px rgba(204, 51, 17, 0.3); }
-
-        .contact-link:hover {
-            transform: translateY(-2px);
-        }
-
-        .contact-link:nth-child(1):hover { box-shadow: 0 8px 24px rgba(204, 51, 17, 0.5); }
-        .contact-link:nth-child(2):hover { box-shadow: 0 8px 24px rgba(238, 136, 51, 0.5); }
-        .contact-link:nth-child(3):hover { box-shadow: 0 8px 24px rgba(255, 204, 51, 0.5); }
-        .contact-link:nth-child(4):hover { box-shadow: 0 8px 24px rgba(68, 187, 102, 0.5); }
-        .contact-link:nth-child(5):hover { box-shadow: 0 8px 24px rgba(51, 102, 204, 0.5); }
-        .contact-link:nth-child(6):hover { box-shadow: 0 8px 24px rgba(204, 51, 17, 0.5); }
-
-        footer {
-            margin-top: 120px;
-            padding: 40px 0;
-            border-top: 1px solid var(--border-subtle);
-            text-align: center;
-            color: var(--text-secondary);
-        }
-
-        footer p {
-            font-size: 0.9rem;
-        }
-
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .featured-work {
-                grid-template-columns: 1fr;
-            }
-
-            .about-content {
-                grid-template-columns: 1fr;
-            }
-
-            .profile-image {
-                max-width: 300px;
-                margin: 0 auto;
-            }
-        }
-
+        /* --- RESPONSIVE --- */
         @media (max-width: 768px) {
-            .container {
-                padding: 0 20px;
-            }
-
-            .theme-toggle {
-                top: 16px;
-                right: 16px;
-                font-size: 0.85rem;
-                padding: 8px 16px;
-            }
-
-            .hero-header {
-                min-height: auto;
-                padding: 120px 20px 80px;
-            }
-
-            .hero-background {
-                font-size: 6rem;
-            }
-
-            .hero-content {
-                padding: 0 20px;
-            }
-
-            .hero-title {
-                margin-bottom: 16px;
-            }
-
-            .hero-tagline {
-                margin-bottom: 32px;
-            }
-
-            .hero-nav {
-                flex-direction: column;
-                width: 100%;
-                max-width: 300px;
-                margin: 0 auto;
-                gap: 12px;
-            }
-
-            .hero-nav a {
-                width: 100%;
-                text-align: center;
-                padding: 12px 24px;
-            }
-
-            .section {
-                margin-bottom: 80px;
-            }
-
-            .about-content,
-            .contact-content {
-                padding: 32px 24px;
-            }
-
-            .lightbox-content {
-                padding: 32px 24px;
-            }
-
-            .lightbox-close {
-                top: 16px;
-                right: 16px;
-                width: 40px;
-                height: 40px;
-                font-size: 1.5rem;
-            }
-
-            .portfolio-grid {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-                gap: 24px;
-            }
-
-            .blog-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* Form success message */
-        .form-success {
-            display: none;
-            padding: 20px;
-            background: linear-gradient(135deg, rgba(68, 187, 102, 0.2), rgba(68, 187, 102, 0.1));
-            border: 1px solid var(--tos-green);
-            border-radius: 12px;
-            margin-bottom: 24px;
-            text-align: center;
-            color: var(--tos-green);
-            font-weight: 500;
-        }
-
-        .form-success.active {
-            display: block;
-            animation: slideDown 0.3s ease;
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            .about-split { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 3rem; }
+            section { padding: 60px 0; }
+            .modal-content { padding: 24px; }
+            .accolades-grid { grid-template-columns: 1fr; }
+            .form-row { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body data-theme="dark">
-    <!-- Theme Toggle -->
-    <button class="theme-toggle" onclick="toggleTheme()">
-        <span id="theme-icon">🌙</span>
-        <span id="theme-text">Dark</span>
+
+    <button class="theme-toggle" id="themeToggle">
+        <span id="theme-icon">🌙</span> Mode
     </button>
 
-    <!-- Lightbox Modal -->
-    <div class="lightbox" id="lightbox">
-        <div class="lightbox-content">
-            <button class="lightbox-close" onclick="closeLightbox()">×</button>
-            <div id="lightbox-body"></div>
-        </div>
-    </div>
-
-    <!-- Full Bleed Hero Header -->
-    <header class="hero-header">
-        <div class="hero-background"></div>
-        <div class="hero-content">
-            <h1 class="hero-title">Ernie Zahn</h1>
-            <p class="hero-tagline"><strong>Filmmaker · Producer · Open Source Advocate</strong></p>
-            <nav class="hero-nav">
-                <a href="#work">Work</a>
-                <a href="#about">About</a>
-                <a href="#writing">Thoughts</a>
-                <a href="#contact">Connect</a>
-            </nav>
+    <!-- HERO -->
+    <header class="hero">
+        <div class="container">
+            <h1>Ernie Zahn</h1>
+            <p>Filmmaker · Producer · Open Source Advocate</p>
+            <a href="#contact" class="btn">Let's Collaborate</a>
         </div>
     </header>
 
-    <div class="container">
-        <!-- Featured Work Section -->
-        <section id="work" class="section">
-            <div class="section-header">
-                <div class="section-number">01A</div>
-                <h2>Featured Work</h2>
+    <!-- WORK SECTION -->
+    <section id="work">
+        <div class="container">
+            <div class="section-title">
+                <div class="section-num">01</div>
+                <h2>Selected Work</h2>
             </div>
             
-            <div class="featured-work">
-                <div class="featured-item" onclick="openLightbox('nahasdzaan')">
-         <img src="images/Carhartt.PNG" alt="Carhartt" class="featured-image">
-                    <div class="featured-overlay">
-                        <h3>An Honest Trade</h3>
-                        <p>Documentary · 2021 · Carhartt</p>
-                    </div>
-                </div>
-                <div class="featured-item" onclick="openLightbox('indigenous')">
-         <img src="images/THE SOURCE.jpg" alt="The Source" class="featured-image">
-                    <div class="featured-overlay">
-                        <h3>The Source</h3>
-                        <p>Short Film · 2025 · Fuji Film</p>
-                    </div>
+            <!--
+                FIX 1: Cards are now pure image thumbnails — no text divs below.
+                The aspect-ratio: 16/9 is set on .work-card in CSS, so the box
+                is always the right shape even before the image loads.
+                Burned-in titles live on the images themselves.
+            -->
+            <div class="work-grid">
+                <div class="work-card" onclick="openModal('An Honest Trade', 'Documentary · 2021', 'Co-Director & Producer for Carhartt // 100 years ago, Hamilton Carhartt made a deal with a small town that transformed a community for generations.', 'vimeo:598854945')">
+                    <img src="images/Carhartt.PNG" alt="An Honest Trade">
                 </div>
 
-             <div class="featured-item" onclick="openLightbox('youthvoices')">
-         <img src="images/ITP.PNG" alt="Indigenize the Plate" class="featured-image">
-        <div class="featured-overlay">
-            <h3>Indigenize the Plate</h3>
-            <p>Feature Documentary · 2023 · Tse'Nato'</p>
-        </div>
-    </div>
-
-              <div class="featured-item" onclick="openLightbox('youthvoices')">
-         <img src="images/Protalk.PNG" alt="Protalk" class="featured-image">
-        <div class="featured-overlay">
-            <h3>ProTalk</h3>
-            <p>Series · 2024 · Sennheiser</p>
-        </div>
-    </div>
-
-</div>
-
-<div class="section-header">
-    <div class="section-number" style="background: rgba(204, 51, 17, 0.15); border-color: var(--tos-red); color: var(--tos-red);">01B</div>
-    <h2>Ongoing Work</h2>
-</div>
-
-<div class="portfolio-grid">
-    <div class="portfolio-item" onclick="openLightbox('desert')">
-                    <div class="portfolio-poster">🎞️</div>
-                    <div class="portfolio-info">
-                        <h4>Tse'Nato'</h4>
-                        <div class="portfolio-meta">
-                            <span class="portfolio-year">2023-Present</span>
-                            <span>·</span>
-                            <span>Co-Founder & Execuive Producer</span>
-                        </div>
-                    </div>
+                <div class="work-card" onclick="openModal('The Source', 'Short Film · 2025', 'Producer & 1st AD for Fujifilm // A showcase of the capabilities of a GFX Eterna 55 through narrative storytelling.', 'vimeo:1188867335')">
+                    <img src="images/THE SOURCE.jpg" alt="The Source">
                 </div>
-                <div class="portfolio-item" onclick="openLightbox('voices')">
-                <img src="images/Mothers-Day-Poster.png" alt="Mother's Day" class="portfolio-poster">
-                    <div class="portfolio-info">
-                        <h4>Mother's Day</h4>
-                        <div class="portfolio-meta">
-                            <span class="portfolio-year">2024</span>
-                            <span>·</span>
-                            <span>Short Film · Tse'Nato'</span>
-                        </div>
-                    </div>
+
+                <div class="work-card" onclick="openModal('Indigenize the Plate', 'Feature Doc · 2023', 'Director & Producer for Tse\'Nato // Exploring the connection between sustainability and cuisine. A Diné woman travels from the heart of the Navajo Nation to the Andes and connects with a Quechua community who are rescuing their way of life by rescuing their food. Shot over a year.', 'vimeo:802141632')">
+                    <img src="images/ITP.PNG" alt="Indigenize the Plate">
                 </div>
-                <div class="portfolio-item" onclick="openLightbox('reel')">
-                  <img src="images/Longhand.png" alt="Longhand" class="portfolio-poster">
-                    <div class="portfolio-info">
-                        <h4>Longhand</h4>
-                        <div class="portfolio-meta">
-                            <span class="portfolio-year">2025</span>
-                            <span>·</span>
-                            <span>Software</span>
-                        </div>
-                    </div>
+
+                <div class="work-card" onclick="openModal('ProTalk', 'Series · 2024', 'Producer for Sennheiser // A documentary series exploring the artistry and lives touched by professional audio. Featuring industry experts.', 'vimeo:1188870110')">
+                    <img src="images/Protalk.PNG" alt="ProTalk">
+                </div>
+
+                <div class="work-card" onclick="openModal('Mother\'s Day', 'Short Narrative · 2024', 'Director for Tse\'Nato // A single mother faces challenges while balancing her desire to be loved with her responsibilities as a parent.', 'vimeo:1084292085')">
+                    <img src="images/MTD.PNG" alt="Mother's Day">
+                </div>
+
+                <div class="work-card" onclick="openModal('The Art of Work', 'Short Doc · 2023', 'Producer for Julien Jarry // As vintage film cameras and lenses have seen a resurgence in recent years, the number of professionals who can repair and restore these gems is rapidly declining. Youxin and Wen Ye are two of the last of these masters. They breathe new life into decades-old cameras, elevating the work from a science to an art.', 'vimeo:710119524')">
+                    <img src="images/ArtofWork.PNG" alt="The Art of Work">
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- About Section with Profile Image -->
-        <section id="about" class="section">
-            <div class="section-header">
-                <div class="section-number orange">02</div>
+    <!-- ABOUT & ACCOLADES -->
+    <section id="about">
+        <div class="container">
+            <div class="section-title">
+                <div class="section-num orange">02</div>
                 <h2>About</h2>
             </div>
-            <div class="about-content">
-                <img src="images/Profile.jpg" alt="Ernie Zahn" class="profile-image">
-                <div class="about-text">
-                    <p>This is my cool kid portrait. I'll send it to Rolling Stone when they do a profile on me. Until that time it shall reside here.</p>
-                    
-                    <p>Being a generalist, I can do most things on a project but I'm more interested in ensuring masters, far more capable than me, fill those positions.</p>
-
-                    <p>My mission as a producer is to rally as many talented humans as I can in order to create something we can all be proud of.</p>
-
-                     <p>Oh, and on the side I'm using, learning, and contributing to open source technologies.</p>
-
-                    <div class="skills">
-                        <span class="skill-tag">Producing</span>
-                        <span class="skill-tag">Writing</span>
-                        <span class="skill-tag">Directing</span>
-                        <span class="skill-tag">Editing</span>
-                        <span class="skill-tag">Color Grading</span>
-                        <span class="skill-tag">Photography</span>
-                        <span class="skill-tag">Business Administration</span>
-                        <span class="skill-tag">Market Strategy</span>
-                        <span class="skill-tag">Some IT Stuff</span>
+            <div class="about-split">
+                <div><img src="images/Profile.jpg" alt="Ernie Zahn" class="profile-img"></div>
+                <div>
+                    <p class="bio-text">Over 20 years of experience, 30+ official selections across the world, with work featured and awarded at Academy Award-qualifying festivals. As a producer and generalist my mission is to rally masterful specialists to create something that we can all be proud of, connects with audiences, and brings something to the screen that wasn't there before.</p>
+                    <p class="bio-text">Beyond the camera, I am a passionate advocate for open-source technology, open standards, and open knowledge. I'm dedicated to contributing to a future with more community-owned and community-maintained solutions for a sustainable society and planet.</p>
+                    <h3 style="margin-top: 32px; margin-bottom: 16px; font-size: 1.2rem;">Skills</h3>
+                    <div style="display:flex; flex-wrap:wrap; gap:8px;">
+                        <span style="padding:6px 12px; background:rgba(255,204,51,0.1); color:var(--tos-yellow); border-radius:12px; font-size:0.9rem;">Producing</span>
+                        <span style="padding:6px 12px; background:rgba(255,204,51,0.1); color:var(--tos-yellow); border-radius:12px; font-size:0.9rem;">Directing</span>
+                        <span style="padding:6px 12px; background:rgba(255,204,51,0.1); color:var(--tos-yellow); border-radius:12px; font-size:0.9rem;">Linux/DevOps</span>
+                        <span style="padding:6px 12px; background:rgba(255,204,51,0.1); color:var(--tos-yellow); border-radius:12px; font-size:0.9rem;">Strategy</span>
                     </div>
                 </div>
             </div>
-        </section>
+            <div style="margin-top: 60px;">
+                <h3 style="margin-bottom: 24px; font-size: 1.5rem;">Accolades</h3>
+                <ul class="accolades-grid">
+                    <li class="accolade-item"><div class="laurel silver">1</div><div class="accolade-details"><h4>Filmmakers Without Borders Fellowship</h4><span>2015 · Film Education Program</span></div></li>
+                    <li class="accolade-item"><div class="laurel silver">2</div><div class="accolade-details"><h4>Best Director</h4><span>Las Cruces Film Festival · The Art of Work (2023)</span></div></li>
+                    <li class="accolade-item"><div class="laurel bronze">3</div><div class="accolade-details"><h4>Best Short Film</h4><span>Beloit Queer Shorts Film Festival · Liminal Spaces (2025)</span></div></li>
+                    <li class="accolade-item"><div class="laurel gold">4</div><div class="accolade-details"><h4>Public Media Fund Awardee</h4><span>Vision Maker Media · Indigenize the Plate (2023)</span></div></li>
+                    <li class="accolade-item"><div class="laurel gold">5</div><div class="accolade-details"><h4>Official Selection</h4><span>LA Skins Fest · Mother's Day (2023)</span></div></li>
+                    <li class="accolade-item"><div class="laurel gold">6</div><div class="accolade-details"><h4>Featured Filmmaker</h4><span>Smithsonian National Museum · Nahasdzaan (2022)</span></div></li>
+                </ul>
+            </div>
+        </div>
+    </section>
 
-        <!-- Blog Section with Thumbnails -->
-        <section id="writing" class="section">
-            <div class="section-header">
-                <div class="section-number yellow">03</div>
+    <!-- BLOG SECTION -->
+    <section id="blog">
+        <div class="container">
+            <div class="section-title">
+                <div class="section-num yellow">03</div>
                 <h2>Thoughts</h2>
             </div>
-            <div class="blog-grid">
-                <article class="blog-card" onclick="openBlogPost('davinci')">
-                    <div class="blog-thumbnail">💻</div>
-                    <div class="blog-content">
-                        <div class="blog-date">Oct 2024</div>
-                        <h3><a href="#writing">DaVinci Resolve on Bazzite: A Creator's Journey</a></h3>
-                        <p class="blog-excerpt">My experience transitioning from proprietary editing software to a fully open-source workflow using DaVinci Resolve on Bazzite Linux.</p>
-                    </div>
-                </article>
-                
-                <article class="blog-card" onclick="openBlogPost('linux')">
-                    <div class="blog-thumbnail">🐧</div>
-                    <div class="blog-content">
-                        <div class="blog-date">Sep 2024</div>
-                        <h3><a href="#writing">Why Linux is the Future for Creative Professionals</a></h3>
-                        <p class="blog-excerpt">Breaking down the myths and exploring why more filmmakers and editors should consider making the switch to open-source operating systems.</p>
-                    </div>
-                </article>
-                
-                <article class="blog-card" onclick="openBlogPost('gnome')">
-                    <div class="blog-thumbnail">🖥️</div>
-                    <div class="blog-content">
-                        <div class="blog-date">Aug 2024</div>
-                        <h3><a href="#writing">GNOME Workflow Tips for Video Editors</a></h3>
-                        <p class="blog-excerpt">Optimizing your GNOME desktop environment for efficient video editing with keyboard shortcuts, extensions, and workflow automation.</p>
+            <div class="blog-feed">
+
+                <!--
+                    FIX 3: Clicking a post toggles .open, which expands .blog-full via
+                    CSS max-height transition. Clicking an already-open post collapses it.
+                    The toggle arrow rotates 180° when open.
+                    Once the post is open, clicking the body area doesn't re-collapse
+                    (cursor: default on .open) — only the title/excerpt area does.
+                -->
+                <article class="blog-post" onclick="togglePost(this)">
+                    <div class="blog-date">May 2026</div>
+                    <h3 class="blog-title">DaVinci Resolve on Bazzite</h3>
+                    <p class="blog-excerpt">Ever since my first install of Ubuntu in 2010, I've wanted to be able to make linux my home for art and creativity. In 2026 that reality is closer than ever before.</p>
+                    <span class="blog-toggle">Read more</span>
+                    <div class="blog-full">
+                        <div class="blog-full-inner">
+                            <p>Making the switch from macOS to Bazzite Linux wasn't something I did lightly. After years of Final Cut Pro and the Apple ecosystem, I was skeptical that a Linux-based workflow could match what I'd built. I was wrong in the best possible way.</p>
+                            <p>DaVinci Resolve on Bazzite runs with remarkable stability. The GPU passthrough with my NVIDIA card was simpler than I expected, and the color science — the reason I use Resolve in the first place — is identical. No compromises there.</p>
+                            <p>The broader win is ownership. I'm no longer paying subscription fees for tools that could change terms or sunset features. My editing environment is mine. I understand how it works, I can reproduce it, and I can audit it. For a working filmmaker who builds tools for the long term, that's not a minor thing — it's the whole point.</p>
+                        </div>
                     </div>
                 </article>
 
-                <article class="blog-card" onclick="openBlogPost('storytelling')">
-                    <div class="blog-thumbnail">🎬</div>
-                    <div class="blog-content">
-                        <div class="blog-date">Jul 2024</div>
-                        <h3><a href="#writing">The Art of Documentary Storytelling</a></h3>
-                        <p class="blog-excerpt">Lessons learned from years of documentary work: finding authentic voices, building trust, and crafting narratives that resonate.</p>
-                    </div>
-                </article>
-
-                <article class="blog-card" onclick="openBlogPost('color')">
-                    <div class="blog-thumbnail">🎨</div>
-                    <div class="blog-content">
-                        <div class="blog-date">Jun 2024</div>
-                        <h3><a href="#writing">Color Grading Without Compromise</a></h3>
-                        <p class="blog-excerpt">Achieving professional-grade color correction and grading using free and open-source tools in DaVinci Resolve.</p>
-                    </div>
-                </article>
-
-                <article class="blog-card" onclick="openBlogPost('community')">
-                    <div class="blog-thumbnail">🤝</div>
-                    <div class="blog-content">
-                        <div class="blog-date">May 2024</div>
-                        <h3><a href="#writing">Building Community Through Film</a></h3>
-                        <p class="blog-excerpt">How collaborative filmmaking and open-source principles intersect to create meaningful connections and impactful stories.</p>
-                    </div>
-                </article>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Contact Section with Form -->
-        <section id="contact" class="section">
-            <div class="section-header">
-                <div class="section-number green">04</div>
+    <!-- CONTACT SECTION -->
+    <section id="contact">
+        <div class="container">
+            <div class="section-title">
+                <div class="section-num green">04</div>
                 <h2>Get in Touch</h2>
             </div>
-            <div class="contact-content">
-                <p>Interested in collaborating on a project or just want to chat about filmmaking and tech-left things? Drop me a message!</p>
-                
-                <div class="form-success" id="form-success">
-                    ✓ Message sent successfully! I'll get back to you soon.
-                </div>
-                
-                <form class="contact-form" id="contact-form" onsubmit="handleSubmit(event)">
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" id="name" name="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="message">Message</label>
-                        <textarea id="message" name="message" required></textarea>
-                    </div>
-                    <button type="submit" class="form-submit">Send Message</button>
-                </form>
-
-                <div class="contact-divider">or connect via</div>
-
+            <div class="contact-box">
+                <p style="font-size: 1.2rem; color: var(--text-muted);">Interested in collaborating on a project or discussing open-source workflows? Let's connect.</p>
                 <div class="contact-links">
-                    <a href="mailto:contactme.spur609@passmail.net" class="contact-link">Email</a>
-                    <a href="https://www.instagram.com/zahntron/" class="contact-link">Instagram</a>
-                    <a href="https://mastodon.social/@zahntron" class="contact-link">Mastodon</a>
-                    <a href="https://www.youtube.com/@zahntron" class="contact-link">YouTube</a>
-                    <a href="https://www.linkedin.com/in/ernie-zahn/" class="contact-link">LinkedIn</a>
-                    <a href="https://github.com/zahntron" class="contact-link">GitHub</a>
+                    <a href="mailto:ernest.zahn@protonmail.com" class="contact-btn">Email</a>
+                    <a href="https://linkedin.com/in/ernie-zahn" class="contact-btn" target="_blank" rel="noopener">LinkedIn</a>
+                    <a href="https://github.com/zahntron" class="contact-btn" target="_blank" rel="noopener">GitHub</a>
+                    <a href="https://instagram.com/zahntron" class="contact-btn" target="_blank" rel="noopener">Instagram</a>
+                </div>
+
+                <!--
+                    FIX 4: Restored contact form. Uses a mailto action as a no-backend
+                    solution, or swap action="" for a Formspree/Netlify endpoint later.
+                    The select lets people self-identify what kind of project they have
+                    in mind, which is useful context when you get the email.
+                -->
+                <div class="contact-form">
+                    <h3>— or send a message directly —</h3>
+                    <form action="mailto:ernest.zahn@protonmail.com" method="post" enctype="text/plain" onsubmit="return handleFormSubmit(event)">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="cf-name">Name</label>
+                                <input type="text" id="cf-name" name="name" placeholder="Your name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="cf-email">Email</label>
+                                <input type="email" id="cf-email" name="email" placeholder="your@email.com" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="cf-type">Project type</label>
+                            <select id="cf-type" name="type">
+                                <option value="">— Select one —</option>
+                                <option>Documentary</option>
+                                <option>Narrative Film</option>
+                                <option>Commercial / Brand</option>
+                                <option>Open-source / Tech</option>
+                                <option>Something else</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="cf-msg">Message</label>
+                            <textarea id="cf-msg" name="message" placeholder="Tell me about your project…" required></textarea>
+                        </div>
+                        <button type="submit" class="form-submit">Send Message</button>
+                        <p class="form-note">Your message opens in your default email client. No data is stored by this site.</p>
+                    </form>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
+
+    <!-- MODAL OVERLAY -->
+    <div id="projectModal" class="modal" onclick="closeModalOnBackdrop(event)">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">×</button>
+            <h2 id="mTitle" class="modal-title"></h2>
+            <div id="mMeta" class="modal-meta"></div>
+            <!--
+                FIX 2: The video wrapper is rebuilt in JS each time openModal() is called,
+                so we never lose a reference to the thumbnail image when innerHTML is cleared.
+                The wrapper element itself stays in the DOM; only its children are swapped.
+            -->
+            <div id="mVideoWrapper" class="video-wrapper" style="display:none;" onclick="loadVideo()"></div>
+            <p id="mDesc" class="modal-desc"></p>
+            <a id="mLink" href="#" target="_blank" rel="noopener" class="modal-link">Watch on Platform</a>
+        </div>
     </div>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 Ernie Zahn. Built with passion for open-source and creativity.</p>
-        </div>
+    <footer style="text-align: center; padding: 40px; color: var(--text-muted); font-size: 0.9rem;">
+        <p>&copy; 2025 Ernie Zahn. Built with passion for open-source and creativity.</p>
     </footer>
 
     <script>
-        // Theme Toggle
-        function toggleTheme() {
-            const body = document.body;
-            const themeIcon = document.getElementById('theme-icon');
-            const themeText = document.getElementById('theme-text');
-            
-            if (body.getAttribute('data-theme') === 'dark') {
-                body.setAttribute('data-theme', 'light');
-                themeIcon.textContent = '☀️';
-                themeText.textContent = 'Light';
-            } else {
-                body.setAttribute('data-theme', 'dark');
-                themeIcon.textContent = '🌙';
-                themeText.textContent = 'Dark';
-            }
-        }
+        /* ---- THEME TOGGLE ---- */
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon   = document.getElementById('theme-icon');
 
-        // Lightbox functionality
-        const projectData = {
-            nahasdzaan: {
-                title: 'An Honest Trade',
-                description: 'A small down made a deal with Hamilton Carhartt to grow their community and his company. 100 years later both the town and company still thrive on a relationship that has lasted for over three generations.',
-                details: 'YouTuber Carl Murawski brought me on to cover this story for his channel along with my buddy Julien Jarry.',
-                tech: 'As co-director and producer I handled pre-interviews, crafted story, conducted interviews, composed shots, ran B-cam, and advised during editing.'
-            },
-            indigenous: {
-                title: 'The Source',
-                description: 'To promote the GFX Eterna 55 Fuji needed a short film produced to showcase its capabilities.',
-                details: 'Julien Jarry tapped me to step in as producer so ',
-                tech: 'As Producer & 1st AD I handled casting, budget, scheduling, locations, relaionship management, script supervising, kept set ups on task.'
-            },
-
-youthvoices: {
-    title: 'Youth Voices Rising',
-    description: 'Young indigenous activists share their vision for the future and their role in cultural preservation and environmental justice.',
-    details: 'Featured at multiple youth film festivals and used in educational curricula across the Southwest.',
-    tech: 'Community collaboration • Youth-led production • 45 minutes'
-},
-
-youthvoices: {
-    title: 'Youth Voices Rising',
-    description: 'Young indigenous activists share their vision for the future and their role in cultural preservation and environmental justice.',
-    details: 'Featured at multiple youth film festivals and used in educational curricula across the Southwest.',
-    tech: 'Community collaboration • Youth-led production • 45 minutes'
-},
-
-            desert: {
-                title: 'Indigenize the Plate',
-                description: 'Exploring the connection between food sustainability and cultural sustainability for Indigenous communities, a Diné woman (Natalie Benally) travels from New Mexico to the Andes in Peru to connect with a Quechua community who are developing their own solutions to address the same challenges seen in their region.',
-                details: 'Shot over the course of a year, this film captures the beauty, hardship, and resilience of desert communities.',
-                tech: 'Cinema camera • Natural lighting • Minimalist crew approach'
-            },
-            voices: {
-                title: 'Mothers Day',
-                description: 'While searching for love and connection, Ashleigh (Natalie Benally) works through her own challenges between parenthood vs adulthood, while discovering what is truly important to her.',
-                details: 'Winner of Best Short Documentary at the Southwest Film Festival 2023.',
-                tech: 'Interview-driven • Archival integration • Sound design in Ardour'
-            },
-            reel: {
-                title: 'Longhand',
-                description: 'A syntax highlighting definition for screewriting in fountain aka this highlights key screenwriting elements in different colors so it\'s easy to skim a script.',
-                details: 'I developed this really for myeslf because I like writing in an environment free from distractions. In feature-rich environments I start questioning my creative choices when what I really want is clarity. I just want something focused.',
-                tech: 'Developed for use in Kate, a cross-pltform text editing app, and GNOME TextEditor. I use it on my linux Bazzite desktop but it can run on Windows and Mac. It\' free and open source! Download it from GitHub.'
-            },
-
-        };
-
-        const blogData = {
-            davinci: {
-                title: 'DaVinci Resolve on Bazzite: A Creator\'s Journey',
-                date: 'October 15, 2024',
-                content: `
-                    <p>When I first decided to make the switch to Linux for my professional editing work, I was met with skepticism from colleagues. "But what about Adobe?" they'd ask. "How will you collaborate?" The truth is, DaVinci Resolve on Bazzite Linux has exceeded every expectation.</p>
-                    
-                    <p>Bazzite, an immutable Fedora-based distribution optimized for gaming and creative work, proved to be the perfect foundation. The system's stability means I never worry about updates breaking my workflow mid-project.</p>
-                    
-                    <p>DaVinci Resolve Studio runs flawlessly, with GPU acceleration working out of the box. Color grading performance is exceptional, and I've actually noticed improved render times compared to my previous Windows setup.</p>
-                    
-                    <h4>Key Advantages:</h4>
-                    <ul>
-                        <li>Rock-solid stability during long editing sessions</li>
-                        <li>Superior performance with AMD and NVIDIA GPUs</li>
-                        <li>No subscription fees for the OS</li>
-                        <li>Complete control over system resources</li>
-                        <li>Active community support</li>
-                    </ul>
-                    
-                    <p>The learning curve was minimal, and the payoff has been substantial. I now have a professional-grade editing workstation that aligns with my values around open-source software and creative freedom.</p>
-                `
-            },
-            linux: {
-                title: 'Why Linux is the Future for Creative Professionals',
-                date: 'September 22, 2024',
-                content: `
-                    <p>The creative industry has long been dominated by proprietary software and locked ecosystems. But a shift is happening, and Linux is at the forefront of this change.</p>
-                    
-                    <p>Professional tools like DaVinci Resolve, Blender, Ardour, and Krita demonstrate that open-source doesn't mean compromising on quality. These applications rival or exceed their proprietary counterparts in many areas.</p>
-                    
-                    <p>Beyond the software itself, Linux offers creative professionals something invaluable: control. You own your workflow, your data, and your creative process. No forced updates, no subscription model changes, no features deprecated without warning.</p>
-                    
-                    <p>The future of creative work is one where artists have the freedom to choose tools that serve their vision, not corporate bottom lines. Linux represents that future.</p>
-                `
-            },
-            gnome: {
-                title: 'GNOME Workflow Tips for Video Editors',
-                date: 'August 10, 2024',
-                content: `
-                    <p>GNOME's clean, distraction-free interface makes it ideal for video editing work. Here are my essential workflow optimizations:</p>
-                    
-                    <h4>Essential Extensions:</h4>
-                    <ul>
-                        <li><strong>Dash to Panel</strong> - Quick access to applications</li>
-                        <li><strong>Workspace Matrix</strong> - Organize projects across multiple workspaces</li>
-                        <li><strong>Caffeine</strong> - Prevent screen dimming during renders</li>
-                        <li><strong>Sound Input & Output Device Chooser</strong> - Fast audio routing</li>
-                    </ul>
-                    
-                    <h4>Keyboard Shortcuts:</h4>
-                    <p>Master these shortcuts to speed up your workflow dramatically:</p>
-                    <ul>
-                        <li>Super + Arrow Keys - Snap windows</li>
-                        <li>Super + Number - Launch favorite apps</li>
-                        <li>Super + Tab - Switch between applications</li>
-                        <li>Alt + Tab - Switch between windows</li>
-                    </ul>
-                    
-                    <p>With these optimizations, GNOME becomes a powerhouse environment for video production.</p>
-                `
-            },
-            storytelling: {
-                title: 'The Art of Documentary Storytelling',
-                date: 'July 5, 2024',
-                content: `
-                    <p>Documentary filmmaking is about truth, but it's also about craft. The stories we tell shape how audiences understand the world.</p>
-                    
-                    <p>Over years of documentary work, I've learned that the best stories emerge from genuine relationships and trust. You can't rush authenticity. The camera must become invisible, a natural part of the environment rather than an intrusion.</p>
-                    
-                    <h4>Core Principles:</h4>
-                    <ul>
-                        <li>Listen more than you speak</li>
-                        <li>Build relationships before filming</li>
-                        <li>Honor your subjects' perspectives</li>
-                        <li>Find the universal in the specific</li>
-                        <li>Let the story guide your editorial choices</li>
-                    </ul>
-                    
-                    <p>Documentary work is a responsibility. The stories we tell have real impacts on real people. Approaching this work with humility and respect is paramount.</p>
-                `
-            },
-            color: {
-                title: 'Color Grading Without Compromise',
-                date: 'June 18, 2024',
-                content: `
-                    <p>Color grading transforms good footage into cinematic imagery. With DaVinci Resolve's free version offering professional-grade tools, there's never been a better time to master color.</p>
-                    
-                    <h4>My Color Workflow:</h4>
-                    <ol>
-                        <li><strong>Balance</strong> - Correct technical issues first</li>
-                        <li><strong>Grade</strong> - Apply creative looks</li>
-                        <li><strong>Match</strong> - Ensure consistency across shots</li>
-                        <li><strong>Finesse</strong> - Add subtle touches and refinements</li>
-                    </ol>
-                    
-                    <p>The key is understanding that color grading serves the story. Every choice should enhance the emotional impact and guide the viewer's attention.</p>
-                    
-                    <p>DaVinci Resolve's node-based system gives you infinite flexibility, and the best part? You don't need expensive plugins. The built-in tools are incredibly powerful when you understand how to use them.</p>
-                `
-            },
-            community: {
-                title: 'Building Community Through Film',
-                date: 'May 3, 2024',
-                content: `
-                    <p>Filmmaking doesn't have to be a solitary pursuit. The most rewarding projects I've worked on have been collaborative efforts that brought communities together.</p>
-                    
-                    <p>When you approach filmmaking as community-building rather than content creation, everything changes. The process becomes as important as the product.</p>
-                    
-                    <h4>Collaborative Filmmaking Principles:</h4>
-                    <ul>
-                        <li>Share knowledge freely</li>
-                        <li>Credit everyone's contributions</li>
-                        <li>Make space for diverse voices</li>
-                        <li>Prioritize relationships over deadlines</li>
-                        <li>Return value to the community</li>
-                    </ul>
-                    
-                    <p>This approach aligns perfectly with open-source philosophy. Just as open-source software thrives on community contribution and shared knowledge, so too can filmmaking projects benefit from collaborative, inclusive approaches.</p>
-                    
-                    <p>The films we create become more than entertainment—they become catalysts for connection, understanding, and positive change.</p>
-                `
-            }
-        };
-
-        function openLightbox(projectId) {
-            const lightbox = document.getElementById('lightbox');
-            const lightboxBody = document.getElementById('lightbox-body');
-            const project = projectData[projectId];
-            
-            if (project) {
-                lightboxBody.innerHTML = `
-                    <h3>${project.title}</h3>
-                    <div class="lightbox-video">🎬</div>
-                    <p>${project.description}</p>
-                    <p>${project.details}</p>
-                    <p><strong>Technical:</strong> ${project.tech}</p>
-                `;
-                lightbox.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            }
-        }
-
-        function openBlogPost(blogId) {
-            const lightbox = document.getElementById('lightbox');
-            const lightboxBody = document.getElementById('lightbox-body');
-            const blog = blogData[blogId];
-            
-            if (blog) {
-                lightboxBody.innerHTML = `
-                    <div class="blog-date" style="margin-bottom: 16px; color: var(--tos-yellow);">${blog.date}</div>
-                    <h3>${blog.title}</h3>
-                    ${blog.content}
-                `;
-                lightbox.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            }
-        }
-
-        function closeLightbox() {
-            const lightbox = document.getElementById('lightbox');
-            lightbox.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-
-        // Close lightbox on escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                closeLightbox();
-            }
+        themeToggle.addEventListener('click', () => {
+            const next = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+            document.body.dataset.theme = next;
+            themeIcon.textContent = next === 'dark' ? '🌙' : '☀️';
         });
 
-        // Close lightbox on background click
-        document.getElementById('lightbox').addEventListener('click', (e) => {
-            if (e.target.id === 'lightbox') {
-                closeLightbox();
-            }
-        });
+        /* ---- MODAL ---- */
+        const modal        = document.getElementById('projectModal');
+        const mTitle       = document.getElementById('mTitle');
+        const mMeta        = document.getElementById('mMeta');
+        const mDesc        = document.getElementById('mDesc');
+        const mLink        = document.getElementById('mLink');
+        const mVideoWrapper = document.getElementById('mVideoWrapper');
 
-        // Form submission
-        function handleSubmit(event) {
-            event.preventDefault();
-            
-            const formSuccess = document.getElementById('form-success');
-            const form = document.getElementById('contact-form');
-            
-            // Show success message
-            formSuccess.classList.add('active');
-            
-            // Reset form
-            form.reset();
-            
-            // Hide success message after 5 seconds
-            setTimeout(() => {
-                formSuccess.classList.remove('active');
-            }, 5000);
-        }
+        let currentVideo = null; // { type, id, thumbSrc }
 
-        // Smooth scroll with offset
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    const offset = 80;
-                    const targetPosition = target.offsetTop - offset;
-                    window.scrollTo({
-                        top: targetPosition,
-                        behavior: 'smooth'
-                    });
+        function openModal(title, meta, desc, videoString) {
+            mTitle.textContent = title;
+            mMeta.textContent  = meta;
+            mDesc.textContent  = desc;
+
+            currentVideo = null;
+            mVideoWrapper.style.display = 'none';
+            mVideoWrapper.innerHTML = '';
+
+            if (videoString) {
+                const parts = videoString.split(':');
+                if (parts.length === 2) {
+                    const type = parts[0].toLowerCase();
+                    const id   = parts[1];
+
+                    let watchUrl = '#';
+                    let thumbSrc = '';
+
+                    if (type === 'yt') {
+                        watchUrl = `https://www.youtube.com/watch?v=${id}`;
+                        thumbSrc = `https://img.youtube.com/vi/${id}/maxresdefault.jpg`;
+                        currentVideo = { type, id, thumbSrc };
+                        buildVideoThumb(thumbSrc);
+                    } else if (type === 'vimeo') {
+                        watchUrl = `https://vimeo.com/${id}`;
+                        // Fetch Vimeo thumbnail asynchronously
+                        fetch(`https://vimeo.com/api/v2/video/${id}.json`)
+                            .then(r => r.json())
+                            .then(data => {
+                                thumbSrc = (data && data[0] && data[0].thumbnail_large)
+                                    ? data[0].thumbnail_large
+                                    : '';
+                                currentVideo = { type, id, thumbSrc };
+                                buildVideoThumb(thumbSrc);
+                            })
+                            .catch(() => {
+                                currentVideo = { type, id, thumbSrc: '' };
+                                buildVideoThumb('');
+                            });
+                    }
+
+                    mLink.href = watchUrl;
+                    mLink.classList.remove('hidden');
+                } else {
+                    mLink.href = '#';
+                    mLink.classList.add('hidden');
                 }
-            });
+            } else {
+                mLink.href = '#';
+                mLink.classList.add('hidden');
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function buildVideoThumb(src) {
+            // Rebuild wrapper content: img + play button
+            mVideoWrapper.innerHTML = '';
+
+            const img = document.createElement('img');
+            img.src = src || '';
+            img.alt = 'Video thumbnail';
+            // If no thumbnail, show a dark placeholder so the play button is still visible
+            if (!src) img.style.background = '#111';
+
+            const btn = document.createElement('div');
+            btn.className = 'play-button';
+
+            mVideoWrapper.appendChild(img);
+            mVideoWrapper.appendChild(btn);
+            mVideoWrapper.style.display = 'block';
+        }
+
+        function loadVideo() {
+            if (!currentVideo) return;
+            let embedUrl = '';
+            if (currentVideo.type === 'yt') {
+                embedUrl = `https://www.youtube.com/embed/${currentVideo.id}?autoplay=1&rel=0`;
+            } else if (currentVideo.type === 'vimeo') {
+                embedUrl = `https://player.vimeo.com/video/${currentVideo.id}?autoplay=1&title=0&byline=0&portrait=0`;
+            }
+            mVideoWrapper.innerHTML = `<iframe src="${embedUrl}" title="Video player"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen style="width:100%;height:100%;border:0;"></iframe>`;
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+            // Stop video audio by clearing iframe
+            mVideoWrapper.innerHTML = '';
+            mVideoWrapper.style.display = 'none';
+            currentVideo = null;
+        }
+
+        function closeModalOnBackdrop(e) {
+            if (e.target === modal) closeModal();
+        }
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
         });
+
+        /* ---- BLOG EXPAND / COLLAPSE ---- */
+        function togglePost(el) {
+            // If clicking inside an already-open post's expanded content, do nothing
+            if (el.classList.contains('open') && event.target.closest('.blog-full')) return;
+            el.classList.toggle('open');
+        }
+
+        /* ---- CONTACT FORM ---- */
+        // The form uses a mailto: action as a zero-backend fallback.
+        // Swap the action attr for a Formspree/Netlify/serverless endpoint when ready.
+        function handleFormSubmit(e) {
+            // Let the mailto action proceed — browsers will open the email client.
+            // Return true to allow default form submission behaviour.
+            return true;
+        }
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
